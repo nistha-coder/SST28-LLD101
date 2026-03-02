@@ -6,5 +6,5 @@ public class DisciplinaryRule implements EligibilityRule {
         if (s.disciplinaryFlag != LegacyFlags.NONE) {
             reasons.add("disciplinary flag present");
         }
-    }
+    } 
 }

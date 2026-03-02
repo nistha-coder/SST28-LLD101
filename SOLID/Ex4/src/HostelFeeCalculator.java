@@ -11,6 +11,7 @@ public class HostelFeeCalculator {
         this.repo = repo;
         
     }
+    
 
     // OCP violation: switch + add-on branching + printing + persistence.
     public void process(BookingRequest req) {

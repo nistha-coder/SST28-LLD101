@@ -3,7 +3,7 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         System.out.println("=== Cafeteria Billing ===");
-        InvoiceRepository repo = new FileStore();
+       FileStore repo = new FileStore();
         TaxPolicy taxPolicy = new DefaultTaxPolicy();
         DiscountPolicy discountPolicy = new DefaultDiscountPolicy();
         InvoiceFormatter formatter = new InvoiceFormatter();
