@@ -18,35 +18,47 @@ public class TicketService {
 
     public IncidentTicket createTicket(String id, String reporterEmail, String title) {
         // scattered validation (incomplete on purpose)
-        if (id == null || id.trim().isEmpty()) throw new IllegalArgumentException("id required");
-        if (reporterEmail == null || !reporterEmail.contains("@")) throw new IllegalArgumentException("email invalid");
-        if (title == null || title.trim().isEmpty()) throw new IllegalArgumentException("title required");
+    
 
-        IncidentTicket t = new IncidentTicket(id, reporterEmail, title);
+       IncidentTicket t = new IncidentTicket.builder()
+                .setId(id)
+                .setReporterEmail(reporterEmail)
+                .setTitle(title)
+                .setPriority("MEDIUM")
+                .setSource("CLI")
+                .setCustomerVisible(false)
+                .setTags(List.of("NEW"))
+                .build();
 
         // BAD: mutating after creation
-        t.setPriority("MEDIUM");
-        t.setSource("CLI");
-        t.setCustomerVisible(false);
+        // t.setPriority("MEDIUM");
+        // t.setSource("CLI");
+        // t.setCustomerVisible(false);
 
-        List<String> tags = new ArrayList<>();
-        tags.add("NEW");
-        t.setTags(tags);
+
+        // List<String> tags = new ArrayList<>();
+        // tags.add("NEW");
+        // t.setTags(tags);
+
 
         return t;
     }
 
-    public void escalateToCritical(IncidentTicket t) {
+    public IncidentTicket escalateToCritical(IncidentTicket t) {
         // BAD: mutating ticket after it has been "created"
-        t.setPriority("CRITICAL");
-        t.getTags().add("ESCALATED"); // list leak
+        // t.setPriority("CRITICAL");
+        // t.getTags().add("ESCALATED"); // list leak
+        IncidentTicket updated = t.tobuilder().setPriority("CRITICAL").addTag("ESCALATED").build();
+        return updated;
     }
 
-    public void assign(IncidentTicket t, String assigneeEmail) {
+    public IncidentTicket assign(IncidentTicket t, String assigneeEmail) {
         // scattered validation
-        if (assigneeEmail != null && !assigneeEmail.contains("@")) {
-            throw new IllegalArgumentException("assigneeEmail invalid");
-        }
-        t.setAssigneeEmail(assigneeEmail);
+        // if (assigneeEmail != null && !assigneeEmail.contains("@")) {
+        //     throw new IllegalArgumentException("assigneeEmail invalid");
+        // }
+        // t.setAssigneeEmail(assigneeEmail);
+        IncidentTicket updated = t.tobuilder().setAssigneeEmail(assigneeEmail).build(); 
+        return updated;
     }
 }

@@ -22,7 +22,7 @@ public class HostelFeeCalculator {
 
         String bookingId = "H-" + (7000 + new Random(1).nextInt(1000)); // deterministic-ish
         repo.save(bookingId, req, monthly, deposit);
-    }
+    } 
 
     private Money calculateMonthly(BookingRequest req) {
         Money monthly = new Money(0.0);
@@ -31,5 +31,5 @@ public class HostelFeeCalculator {
             monthly = monthly.plus(c.monthlyCharge(req));
         }
         return monthly;
-    }
+    } 
 }

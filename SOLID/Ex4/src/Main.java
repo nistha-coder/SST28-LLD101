@@ -12,5 +12,5 @@ public class Main {
 
         HostelFeeCalculator calc = new HostelFeeCalculator(components,new FakeBookingRepo());
         calc.process(req);
-    }
+    } 
 }
