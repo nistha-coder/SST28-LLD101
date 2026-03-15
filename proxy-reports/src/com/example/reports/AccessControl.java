@@ -12,6 +12,6 @@ public class AccessControl {
         if ("ADMIN".equals(classification)) {
             return "ADMIN".equals(role);
         }
-        return false;
+        return false; 
     }
 }
