@@ -25,22 +25,25 @@ public class MetricsRegistry implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private static MetricsRegistry INSTANCE; // BROKEN: not volatile, not thread-safe
+   // BROKEN: not volatile, not thread-safe
     private final Map<String, Long> counters = new HashMap<>();
 
     // BROKEN: should be private and should prevent second construction
     public MetricsRegistry() {
         // intentionally empty
-    }
-
-    // BROKEN: racy lazy init; two threads can create two instances
-    public static MetricsRegistry getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new MetricsRegistry();
+        if (Holder.INSTANCE != null) {
+            throw new RuntimeException("Use getInstance() method to get the single instance.");
         }
-        return INSTANCE;
     }
 
+    
+    public static MetricsRegistry getInstance() {
+       return Holder.INSTANCE;
+    }
+    private static class Holder {
+     private static final MetricsRegistry INSTANCE = new MetricsRegistry();
+    }
+    
     public synchronized void setCount(String key, long value) {
         counters.put(key, value);
     }
@@ -58,4 +61,7 @@ public class MetricsRegistry implements Serializable {
     }
 
     // TODO: implement readResolve() to preserve singleton on deserialization
+    protected Object readResolve() {
+        return getInstance(); // Returns the existing instance instead of a new one
+    }
 }
